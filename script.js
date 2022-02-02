@@ -1,43 +1,43 @@
-//pegar os botoes e a img e armazenar na const;
+//const p/ armazenar os botoes do semaforo e a img do semaforo;
 const buttons = document.getElementById('buttons');
 const img = document.getElementById('img');
+
+//variavel global p/ armazenar a posicao do array cores
 let colorIndex = 0;
-let intervalTime = null;
+let stopInterval = null; 
 
-const stopAutomatic = () =>{
-    clearInterval(intervalTime);   
-}
-
-const trafficLight = (event) => {
-    // console.log(event.target.id) //procura o id correspondente e exibe na tela;
+//evento de click p/ 'ligar' os semaforos;
+const trafficLight = (event) =>{
     stopAutomatic();
-    turnOn[event.target.id]();  
+    // console.log(event.target.id) //mostra o botao q foi clicado;
+    turnOn[event.target.id]();
 };
 
-//funcao pra verificar qual é a posicao do vetor e mudar de posicao de acordo
+////verificar qual é a posicao do vetor e mudar de posicao de acordo
 const nextIndex = () =>{
     if(colorIndex < 2){
         colorIndex++
-    }
-    else{
+    }else{
         colorIndex = 0
     }
-}
+};
 
 const changeColor = () =>{
     const colors = ['red', 'yellow', 'green']
-    const color = colors[colorIndex];
+    const color = colors[colorIndex]
     turnOn[color]();
     nextIndex();
-}
+};
 
-const turnOn = { //'ligar' cada semaforo em sua respectiva funcao;
+const stopAutomatic = () =>{
+    clearInterval(stopInterval);
+};
+
+const turnOn = { //p/ cada funcao, 'liga' a o semaforo correspondente;
     'red': () => img.src = './img/vermelho.png',
     'yellow': () => img.src = './img/amarelo.png',
     'green': () => img.src = './img/verde.png',
-    'automatic': () => intervalTime =  setInterval(changeColor, 1000),
+    'automatic': () => stopInterval =  setInterval(changeColor, 1000) //a cada segundo, o semaforo 'liga';
 };
 
-
-//evento de click na const buttons para executar as funcoes de 'ligar' o semaforo
 buttons.addEventListener('click', trafficLight);
